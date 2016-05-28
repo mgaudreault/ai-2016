@@ -29,10 +29,12 @@ class Game:
         self.board = Board(state['game']['board'])
         self.heroes = [Hero(state['game']['heroes'][i]) for i in range(len(state['game']['heroes']))]
         self.hero = self.heroes[int(state['hero']['id']) - 1]
+        self.my_id = int(state['hero']['id']) # myid
         self.mines_locs = {}
         self.heroes_locs = {}
         self.taverns_locs = set([])
         self.spikes_locs = set([])
+        # TODO validate here
         for row in range(len(self.board.tiles)):
             for col in range(len(self.board.tiles[row])):
                 obj = self.board.tiles[row][col]
