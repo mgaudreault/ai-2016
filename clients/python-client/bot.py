@@ -23,6 +23,19 @@ class Bot:
                     nearest = path[0]
 
         return nearest
+        
+    def findNearestBeer(self):
+        nearestLen = 9999
+        nearest = None
+        for tavern in self.game.taverns_locs:
+            # print(str(len(shortest_path(self.game.board, self.game.hero.pos, mine)))
+            path = shortest_path(self.game.board, self.game.hero.pos, tavern)
+            dist = len(path)
+            if dist < nearestLen:
+                nearestLen = dist
+                nearest = path[0]
+
+        return nearest
 
     def move(self, state):
         self.game = Game(state)
@@ -37,7 +50,18 @@ class Bot:
         # dirs = ['Stay', 'North', 'South', 'East', 'West']
 
 
-        dest = self.findNearestEmptyMine()
+        if self.game.hero.life < 30:
+            self.needHealing = True
+        elif self.game.hero.life > 90:
+            self.needHealing = False
+
+        if self.needHealing:
+            dest = self.findNearestBeer()
+            
+        else:
+            dest = self.findNearestEmptyMine()
+
+  
         dirs = navigate_towards(self.game.board, self.game.hero.pos, dest)
 
 
